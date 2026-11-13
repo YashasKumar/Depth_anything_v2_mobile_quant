@@ -2,11 +2,11 @@
 """Score TFLite models on the NYU test images on the host, with the same metrics as the device runs
 (and phase1_baseline.py).
 
-Inputs come from test50_nhwc.npy / test50_gt.npy (the first 50 test images, preprocessed exactly as
-on device; made by prepare_test.py). For each model: AbsRel, delta1-3, RMSE vs ground truth (LSQ scale+shift on disparity,
+Inputs come from <test>_nhwc.npy / <test>_gt.npy, made by prepare_test.py (default test50 = the first 50
+test images, preprocessed exactly as on device; prepare_test.py -n 654 + --test test654 = full split). For each model: AbsRel, delta1-3, RMSE vs ground truth (LSQ scale+shift on disparity,
 Eigen crop, 1e-3..10 m), and output agreement vs the FP32 model (mean|a-b| / mean|b| per image).
 
-Usage:  python eval_tflite_nyu.py model1.tflite [model2.tflite ...] [--ref fp32.tflite] [-n 50]
+Usage:  python eval_tflite_nyu.py model1.tflite [model2.tflite ...] [--ref fp32.tflite] [--test test50] [-n N]
 """
 import argparse
 import glob
@@ -63,13 +63,16 @@ def main():
     ap.add_argument("models", nargs="+")
     ap.add_argument("--ref", default=(glob.glob("saved_model/*_float32.tflite") or [""])[0],
                     help="FP32 reference (default: the onnx2tf FP32 model in saved_model/)")
-    ap.add_argument("-n", type=int, default=50)
+    ap.add_argument("--test", default="test50", help="prefix of the prepare_test.py files")
+    ap.add_argument("-n", type=int, default=0, help="first n images (0 = all in the file)")
     ap.add_argument("--threads", type=int, default=os.cpu_count())
     ap.add_argument("--cache", default="host_outputs")
     args = ap.parse_args()
 
-    X = np.load("test50_nhwc.npy", mmap_mode="r")[: args.n]
-    G = np.load("test50_gt.npy")[: args.n]
+    X = np.load(f"{args.test}_nhwc.npy", mmap_mode="r")
+    args.n = args.n or len(X)
+    X = X[: args.n]
+    G = np.load(f"{args.test}_gt.npy", mmap_mode="r")[: args.n]
     os.makedirs(args.cache, exist_ok=True)
 
     def outputs(path):
