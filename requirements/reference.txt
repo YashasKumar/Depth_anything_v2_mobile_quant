@@ -1,0 +1,10 @@
+# PyTorch reference, ONNX export, test data, demo video  (scripts/phase1_baseline.py, scripts/pt2onnx.py,
+# quantization/prepare_test.py, quantization/make_calib.py, quantization/make_demo_video.py)
+# Python 3.10+; make_demo_video.py also needs the ffmpeg binary (libx264)
+torch>=2.4
+numpy
+opencv-python
+h5py
+scipy
+onnx
+onnxruntime

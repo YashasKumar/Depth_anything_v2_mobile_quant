@@ -1,0 +1,17 @@
+# ONNX -> TFLite (onnx2tf) and all TFLite quantization / evaluation scripts in quantization/
+# Python 3.10. Versions are the ones the results were produced with.
+tensorflow==2.16.1
+tf_keras==2.16.0
+onnx2tf==1.27.2
+onnx==1.17.0
+onnxsim==0.4.36
+onnx_graphsurgeon==0.5.8
+sng4onnx==1.0.4
+onnxruntime==1.18.1
+protobuf==3.20.3
+psutil==5.9.5
+numpy==1.26.4
+pandas==2.2.3
+h5py==3.11.0
+scipy==1.13.1
+opencv-python-headless==4.10.0.84
