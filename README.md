@@ -1,4 +1,4 @@
-# Depth Anything V2 Small on a phone: where int8 quantization breaks a ViT, and how to keep its accuracy
+# Depth Anything V2 Small on a phone
 
 **Full static int8 breaks Depth Anything V2 Small (NYU AbsRel 0.055 → 0.235).** The damage comes from LayerNorm, attention and the residual stream, where the DINOv2 encoder carries a persistent outlier channel. The fully connected layers tolerate int8. **Keeping those parts in FP32 and quantizing only the FC layers of the tolerant blocks, plus the depth head, costs only +0.003 AbsRel and runs 1.34× faster on a phone CPU.**
 
