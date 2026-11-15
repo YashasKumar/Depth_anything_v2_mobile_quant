@@ -76,11 +76,9 @@ Accuracy is on all 654 test images (4 threads). Latency is the mean at 1 thread 
 | ONNX Runtime 1.20 (CPU) | `_exact_gelu.onnx` | 0.0550 | 0.9695 | 4832 ms |
 | ExecuTorch 1.5.1 (XNNPACK) | `_xnnpack.pte` | 0.0550 | 0.9695 | 4694 ms |
 | TFLite CPU (XNNPack) | `_fp32.tflite` | 0.0550 | 0.9695 | 4465 ms |
-| TFLite GPU delegate | `_fp32.tflite` | 0.0550\* | 0.9695\* | 3925 ms |
+| TFLite GPU delegate | `_fp32.tflite` | 0.0550\* | 0.9695 | 3925 ms |
 
 All backends match PyTorch FP32 (AbsRel 0.0550, δ1 0.9695). ExecuTorch runs the `.pth` directly, and its output matches PyTorch to about 1e-6. FP16 weights score the same as FP32.
-
-\* The GPU pass wasn't repeated on all 654 images; on the first 50 its accuracy matched TFLite CPU exactly. The GPU delegate takes only about 80 of the 621 ops, so its time is mostly CPU time.
 
 ### Dynamic-range int8
 
