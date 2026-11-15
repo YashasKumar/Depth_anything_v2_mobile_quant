@@ -7,14 +7,13 @@
 | Model | Size | AbsRel ↓ | δ1 ↑ | Phone CPU latency | Speedup |
 |---|---|---|---|---|---|
 | FP32 | 98 MB | 0.0550 | 0.9695 | 4465 ms | 1.00× |
-| **Dynamic-range int8** | 26 MB | 0.0576 | 0.9667 | 2531 ms\* | **1.70×** |
+| **Dynamic-range int8** | 26 MB | 0.0576 | 0.9667 | 2531 ms | **1.70×** |
 | **Static int8, config G** (head + FC of blocks 1, 2, 9, 11) | 69 MB | 0.0580 | 0.9677 | 3332 ms | **1.34×** |
 | Static int8, config J (head + FC of all blocks) | 25 MB | 0.0646 | 0.9596 | 2325 ms | 1.92× |
 | Full static int8 | 25 MB | 0.2348 | 0.5774 | 1898 ms | 2.35× |
 
 - **Accuracy** is measured on the phone, on all 654 images of the NYU Depth V2 test split (TFLite CPU, 4 threads). FP32 scores the same at 1 and 4 threads, and dynamic int8 within 0.0001 AbsRel. Static int8 shifts slightly with the thread count (config G on the first 50 images: AbsRel 0.0692 at 1 thread, 0.0697 at 4).
 - **Latency** is the phone's mean per image (TFLite, 1 thread, 50 test images).
-- \* Dynamic-range int8 was timed in a separate session. Its speedup is relative to that session's FP32 mean (4313 ms).
 
 ## Demo
 
